@@ -16,11 +16,13 @@ def mae(y, x):
 target_file = "/data/yuyang/weather/data/data_aggregated/test"
 xgb_file = "/data/yuyang/weather/result/xgb_pre.csv"
 rf_file = "/data/yuyang/weather/result/rf_pre.csv"
-file_day = '2017-10-17'
-bigru_file = "/data/yuyang/weather/result/bi-gru_pre-{}.csv".format(file_day)
+file_day = '2017-10-16'
+#bigru_file = "/data/yuyang/weather/result/bi-gru_pre-{}.csv".format(file_day)
+bigru_file = "/data/yuyang/weather/result/bi-gru_pre.csv"
 ensemble_file = "/data/yuyang/weather/result/ensemble.csv"
 
 prediction_file = bigru_file
+#print("\nmodel : bi-gru,    file_date: {}".format(file_day))
 print("\nmodel : bi-gru,    file_date: {}".format(file_day))
 
 labels = []
@@ -78,18 +80,17 @@ for i in range(len(l0)):
         cnt_pre_20 += 1
 
 print('count of preds when label == 0: ')
-print(' [0, 0] -> {0}\n (0, 2] -> {1}\n (2, 10] -> {2}\n (10, 20] -> {3}\n (20, ) -> {4}\n'.format(cnt_pre_0, cnt_pre_0_2,
-                                                                                 cnt_pre_2_10, cnt_pre_10_20, cnt_pre_20))
+print(' [ 0, 0 ] -> {0}\n ( 0, 2 ] -> {1}\n ( 2, 10] -> {2}\n (10, 20] -> {3}\n (20,   ) -> {4}\n'.format(cnt_pre_0, cnt_pre_0_2, cnt_pre_2_10, cnt_pre_10_20, cnt_pre_20))
 
 print('rmse & mae in different ranges of label: ')
-print('label range  ', ' rmse    mae')
-print('[  0, 0  ] ->  {:.2f}   {:.2f}'.format(rmse(l0, p0), mae(l0, p0)))
-print('(  0, 10 ] ->  {:.2f}   {:.2f}'.format(rmse(l1, p1), mae(l1, p1)))
-print('( 10, 20 ] ->  {:.2f}   {:.2f}'.format(rmse(l2, p2), mae(l2, p2)))
-print('( 20, 50 ] ->  {:.2f}   {:.2f}'.format(rmse(l3, p3), mae(l3, p3)))
-print('( 50, 100] ->  {:.2f}   {:.2f}'.format(rmse(l4, p4), mae(l4, p4)))
-print('[100,    ) ->  {:.2f}   {:.2f}'.format(rmse(l5, p5), mae(l5, p5)))
+print('label range  ', 'count    rmse      mae')
+print('[  0, 0  ] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l0), rmse(l0, p0), mae(l0, p0)))
+print('(  0, 10 ] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l1), rmse(l1, p1), mae(l1, p1)))
+print('( 10, 20 ] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l2), rmse(l2, p2), mae(l2, p2)))
+print('( 20, 50 ] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l3), rmse(l3, p3), mae(l3, p3)))
+print('( 50, 100] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l4), rmse(l4, p4), mae(l4, p4)))
+print('[100,    ) ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l5), rmse(l5, p5), mae(l5, p5)))
 
-print('all test data: ', rmse(label, preds), mae(label, preds))
+print(' all data  ->  {:4d}   {:6.2f}   {:6.2f}'.format(2025, rmse(label, preds), mae(label, preds)))
 print('Done!')
 
