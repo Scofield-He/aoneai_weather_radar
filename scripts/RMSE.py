@@ -21,9 +21,9 @@ file_day = '2017-10-16'
 bigru_file = "/data/yuyang/weather/result/bi-gru_pre.csv"
 ensemble_file = "/data/yuyang/weather/result/ensemble.csv"
 
-prediction_file = bigru_file
+prediction_file = xgb_file
 #print("\nmodel : bi-gru,    file_date: {}".format(file_day))
-print("\nmodel : bi-gru,    file_date: {}".format(file_day))
+print("\nmodel : xgboost,    file_date: {}".format(file_day))
 
 labels = []
 with open(target_file, 'r') as fi:
