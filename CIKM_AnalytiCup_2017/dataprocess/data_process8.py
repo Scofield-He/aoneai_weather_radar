@@ -274,12 +274,10 @@ def dataprocess(filename, data_type, windversion, file_index):
             sample_num = 135
 
         for i in range(1, sample_num + 1):
-
-            line = fr.readline().strip().split(' ')
-            id_label, con_mat = train_convolution(line, data_type)
-            pooling_mat = max_pooling(con_mat)
-
             try:
+                line = fr.readline().strip().split(' ')
+                id_label, con_mat = train_convolution(line, data_type)
+                pooling_mat = max_pooling(con_mat)
                 if windversion == 'new' and data_type == 'train':
 
                     eightValue = extendData(windDriect1ave(pooling_mat))
@@ -331,10 +329,10 @@ def dataprocess(filename, data_type, windversion, file_index):
             head = True
 
         if windversion == 'old':
-            df.to_csv('/data/yuyang/weather/data/data_processed/' + data_type + '_' + windversion + '_wind_4240.csv' + file_index, header=head, index=False,
+            df.to_csv('/data/yuyang/weather/data/data_shenzhen/data_processed/' + data_type + '_' + windversion + '_wind_4240.csv' + file_index, header=head, index=False,
                       float_format='%.3f')
         else:
-            df.to_csv('/data/yuyang/weather/data/data_processed/' + data_type + '_' + windversion + '_wind_1ave_8extend.csv' + file_index, header=head, 
+            df.to_csv('/data/yuyang/weather/data/data_shenzhen/data_processed/' + data_type + '_' + windversion + '_wind_1ave_8extend.csv' + file_index, header=head, 
                       index=False, float_format='%.3f')
 
     return df

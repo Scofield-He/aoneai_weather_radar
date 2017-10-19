@@ -44,7 +44,7 @@ def rf_model(train_df, test_df, mode, train_add, test_add, ne, index=0):
         tA = test_add.values[:, 1:]
         dtest = np.hstack((dtest, tA))
 
-        result = np.zeros(2000)
+        result = np.zeros(2025)
 
         for train_index, valid_index in kf.split(train):
             x_train, x_valid = train[train_index], train[valid_index]

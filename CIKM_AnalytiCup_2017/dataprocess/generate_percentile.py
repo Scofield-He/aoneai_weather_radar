@@ -79,5 +79,5 @@ def data_process(filename, data_type, file_index):
         head = False
         if file_index == '00':
             head = True
-        df.to_csv('/data/yuyang/weather/data/data_processed/' + data_type + '_percentile.csv' + file_index, header=head, index=False, float_format='%.3f')
+        df.to_csv('/data/yuyang/weather/data/data_shenzhen/data_processed/' + data_type + '_percentile.csv' + file_index, header=head, index=False, float_format='%.3f')
     return df

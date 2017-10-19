@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import math
+import time
 from keras.models import load_model
 from tensorflow import set_random_seed
 from keras.models import Sequential
@@ -12,6 +13,7 @@ from keras.layers.pooling import GlobalAveragePooling1D
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 import os
 from keras.regularizers import L1L2
+from keras.callbacks import TensorBoard
 
 np.random.seed(28)
 set_random_seed(28)
@@ -48,9 +50,16 @@ def BiGRU(X_train, y_train, X_test, y_test, gru_units, dense_units, input_shape,
     early_stopping = EarlyStopping(monitor="val_loss", patience=patience)
 
     model.compile(loss='mse', optimizer='adam')
+  
+    date_time = time.strftime('%Y-%m-%d-%H', time.localtime(time.time()))
+    tensorboard = TensorBoard(log_dir="logs/{}".format(date_time))
 
     history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, \
-                                 verbose=2, callbacks=[early_stopping], validation_data=[X_test, y_test], shuffle=True)
+                                 verbose=2, callbacks=[tensorboard], validation_data=[X_test, y_test], shuffle=True)
+
+
+    #history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, \
+    #                             verbose=2, callbacks=[early_stopping], validation_data=[X_test, y_test], shuffle=True)
 
     return model, history_callback
 
@@ -95,8 +104,8 @@ def normalization(X_train, X_test, tX):
 
 def BiGRU_train(train_data, test_data, error_sort, train_mode):
     # basic configuration
-    batch_size = 512
-    epochs = 28
+    batch_size = 64
+    epochs = 100
     drop_out = 0.1
     clean_rate = 0.5
     patience = 5

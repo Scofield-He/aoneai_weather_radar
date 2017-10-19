@@ -46,7 +46,7 @@ def xgb_train(train_df, test_df, mode, params, num_boost_round, early_stopping):
 
         kf = KFold(n_splits=5, shuffle=True)
 
-        result = np.zeros(2000)
+        result = np.zeros(2025)
 
         dtest = test_df.values[:, 1:]
         dtest = xgb.DMatrix(dtest)
@@ -72,7 +72,7 @@ def paramset(type):
     if type == 1:
         return 0.1, 10, 5, 1, 0.8
     else:
-        return 0.02, 43, 5, 0.8, 0.8
+        return 0.02, 20, 5, 0.8, 0.8
 
 
 # trains single xgboost model
@@ -90,7 +90,7 @@ def xgboosttrain(train_df, test_df, type):
               "silent": 0,
               "seed": 200
               }
-    num_boost_round = 1000
+    num_boost_round = 300
     early_stopping_rounds = 100
 
     result = xgb_train(train_df, test_df, 'trai', params, num_boost_round, early_stopping_rounds)
