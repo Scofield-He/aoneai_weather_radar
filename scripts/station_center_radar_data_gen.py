@@ -18,9 +18,9 @@ LAT_LON_KM_RATIO = 111
 
 NC_FILE_FOLDER = '/data/yuyang/weather/data/radar'
 STATION_INFO_FILE = '/data/yuyang/weather/resources/station_info_100'
-OUT_FILE = '/data/yuyang/weather/data/data_aggregated/' + '2014-Station-Centered-Data'
+OUT_FILE = '/data/yuyang/weather/data/data_aggregated_more/' + '2014-Station-Centered-Data'
 LABEL_FILE = '/data/yuyang/weather/resources/label'
-TIME_FILE = '/data/yuyang/weather/resources/time_info_2014_all'
+TIME_FILE = '/data/yuyang/weather/resources/time_info_120'
 TEMP_NC_FILE = 'tmp.nc'
 
 
@@ -114,7 +114,7 @@ print(label_dict.keys()[:5])
 time_li = []
 index = 0
 for idx in range(15):
-    time_count = 13 if idx <= 1 else 12
+    time_count = 9 if idx <= 1 else 8
     if idx == 14:
         time_li.append([v for v in time_list[index:]])
     else:
