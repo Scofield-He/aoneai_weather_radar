@@ -13,25 +13,31 @@ def mae(y, x):
     return np.mean(list(map(lambda x1, y1: abs(x1 - y1), x, y)))
 
 
-target_file = "/data/yuyang/weather/data/data_aggregated/test"
-xgb_file = "/data/yuyang/weather/result/xgb_pre.csv"
-rf_file = "/data/yuyang/weather/result/rf_pre.csv"
-file_day = '2017-10-16'
-#bigru_file = "/data/yuyang/weather/result/bi-gru_pre-{}.csv".format(file_day)
-bigru_file = "/data/yuyang/weather/result/bi-gru_pre.csv"
-ensemble_file = "/data/yuyang/weather/result/ensemble.csv"
+label_file_path = "/data/yuyang/weather/result/beijing_morerain/"
+#label_file_path = "/data/yuyang/weather/result/beijing/"
 
-prediction_file = xgb_file
-#print("\nmodel : bi-gru,    file_date: {}".format(file_day))
-print("\nmodel : xgboost,    file_date: {}".format(file_day))
+label_file = "label_test.txt"
 
-labels = []
+file_time = '2017-10-19-22'
+
+bigru_file = "bi-gru_pre-{}.csv".format(file_time)
+xgb_file = "xgb_pre-{}.csv".format(file_time)
+rf_file = "rf_pre-{}.csv".format(file_time)
+ensemble_file = "ensemble_pre-{}.csv".format(file_time)
+
+prediction_file = label_file_path + ensemble_file
+target_file = label_file_path + label_file
+print("\nmodel : ensemble model,    file_time: {}".format(file_time))
+#print("\nmodel : xgboost,    file_time: {}".format(file_time))
+
+targets = []
 with open(target_file, 'r') as fi:
     for line in fi:
-        labels.append(float(line.split(',')[1]))
-label = labels[:2025]
-length_label = len(label)
-print("count of labels: ", length_label)
+        if line:
+            targets.append(float(line.strip()))
+labels = targets[:2025]
+length_labels = len(labels)
+#print("count of labels: ", length_labels)
 
 preds = []
 with open(prediction_file, 'r') as fo:
@@ -41,29 +47,29 @@ length_preds = len(preds)
 print("count of preds: ", length_preds)
 print()
 
-if length_label != length_preds:
+if length_labels != length_preds:
     print("values error: count of preds != labels")
 
 l0, l1, l2, l3, l4, l5 = [], [], [], [], [], []
 p0, p1, p2, p3, p4, p5 = [], [], [], [], [], []
 for i in range(length_preds):
-    if label[i] == 0:
-        l0.append(label[i])
+    if labels[i] == 0:
+        l0.append(labels[i])
         p0.append(preds[i])
-    elif 0 < label[i] <= 10:
-        l1.append(label[i])
+    elif 0 < labels[i] <= 10:
+        l1.append(labels[i])
         p1.append(preds[i])
-    elif 10 < label[i] <= 20:
-        l2.append(label[i])
+    elif 10 < labels[i] <= 20:
+        l2.append(labels[i])
         p2.append(preds[i])
-    elif 20 < label[i] <= 50:
-        l3.append(label[i])
+    elif 20 < labels[i] <= 50:
+        l3.append(labels[i])
         p3.append(preds[i])
-    elif 50 < label[i] <= 100:
-        l4.append(label[i])
+    elif 50 < labels[i] <= 100:
+        l4.append(labels[i])
         p4.append(preds[i])
     else:
-        l5.append(label[i])
+        l5.append(labels[i])
         p5.append(preds[i])
 
 cnt_pre_0, cnt_pre_0_2, cnt_pre_2_10, cnt_pre_10_20, cnt_pre_20 = 0, 0, 0, 0, 0
@@ -91,6 +97,6 @@ print('( 20, 50 ] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l3), rmse(l3, p3), m
 print('( 50, 100] ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l4), rmse(l4, p4), mae(l4, p4)))
 print('[100,    ) ->  {:4d}   {:6.2f}   {:6.2f}'.format(len(l5), rmse(l5, p5), mae(l5, p5)))
 
-print(' all data  ->  {:4d}   {:6.2f}   {:6.2f}'.format(2025, rmse(label, preds), mae(label, preds)))
+print(' all data  ->  {:4d}   {:6.2f}   {:6.2f}'.format(2025, rmse(labels, preds), mae(labels, preds)))
 print('Done!')
 

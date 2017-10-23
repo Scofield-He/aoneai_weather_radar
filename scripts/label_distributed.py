@@ -6,8 +6,8 @@ shenzhen_raw = "/data/yuyang/weather/data/data_shenzhen/CIKM2017_train/train_lab
 beijing_morerain = "/data/yuyang/weather/data/data_aggregated_more/label_train.txt"
 beijing_raw = "/data/yuyang/weather/data/data_aggregated_raw/label_train.txt"
 
-data_train = beijing_raw
-
+data_train = shenzhen_raw
+print(data_train.split('/')[-2:])
 label = []
 with open(data_train) as fd:
     for line in fd:
